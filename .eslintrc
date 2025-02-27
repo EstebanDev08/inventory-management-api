@@ -5,15 +5,16 @@
   },
   "extends": [
     "airbnb-typescript/base",
-    "prettier",
     "plugin:@typescript-eslint/recommended",
-    "plugin:import/typescript"
+    "plugin:import/typescript",
+    "plugin:prettier/recommended",
+    "plugin:jest/recommended"
   ],
 
   "plugins": ["@typescript-eslint", "import", "prettier", "simple-import-sort"],
   "parser": "@typescript-eslint/parser",
 
-  "ignorePatterns": ["dist/", "**/*.test.ts", "**/*.spec.ts", "node_modules/", ".drizzle/"],
+  "ignorePatterns": ["dist/", "node_modules/", ".drizzle/", "commitlint.config.cjs"],
 
   "parserOptions": {
     "project": "./tsconfig.eslint.json"
@@ -29,14 +30,15 @@
     "arrow-body-style": "off",
     "import/prefer-default-export": "off",
     "simple-import-sort/exports": "error",
-
+    "@typescript-eslint/lines-between-class-members": "off",
+    "@typescript-eslint/no-throw-literal": "off",
     "import/extensions": [
       "error",
       "ignorePackages",
       {
-        "js": "always",
+        "js": "never",
         "mjs": "never",
-        "ts": "always"
+        "ts": "never"
       }
     ],
 
@@ -65,17 +67,32 @@
 
   "settings": {
     "import/resolver": {
+      "typescript": {},
       "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx", ".json"]
+        "extensions": [".ts", ".tsx", ".js", ".json"]
       },
       "alias": {
-        "map": [
-          ["#src", "./src"],
-          ["#env", "./config"]
-        ],
-        "extensions": [".ts", ".json"]
+        "map": [["#src", "./src"]],
+        "extensions": [".ts", ".tsx", ".json"]
       }
     },
     "import/extensions": [".ts", ".mjs"]
-  }
+  },
+  "overrides": [
+    {
+      "files": ["**/*.spec.ts", "**/*.test.ts"],
+      "env": {
+        "jest": true
+      },
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "jest/no-disabled-tests": "warn",
+        "jest/no-focused-tests": "error",
+        "jest/no-identical-title": "error",
+        "jest/prefer-to-have-length": "warn",
+        "jest/valid-expect": "error"
+      }
+    }
+  ]
 }

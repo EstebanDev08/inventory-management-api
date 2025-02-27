@@ -1,29 +1,22 @@
 {
   "compilerOptions": {
-    "target": "ESNext", // Versión de ECMAScript a la que se compilará el código
-    "outDir": "./dist", // Directorio de salida para los archivos compilados
-    "rootDir": ".", // Directorio raíz de los archivos fuente TypeScript
-    "strict": true, // Habilita las opciones estrictas de TypeScript
-    "esModuleInterop": true, // Habilita interoperabilidad con módulos ES6
-    "skipLibCheck": true, // Evita la comprobación de librerías de definición de tipos
-    "forceConsistentCasingInFileNames": true, // Hace que los nombres de archivo sean sensibles a mayúsculas y minúsculas
-    "declaration": true, // Generar archivos de declaración .d.ts
-    "resolveJsonModule": true, // Habilitar la importación de módulos JSON
-    "baseUrl": ".", // Ruta base para las importaciones relativas
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "moduleDetection": "force",
-    "paths": {
-      "#src/*": ["./src/*"]
-      // Alias para las rutas en src
-      // Alias para las rutas en config (añade esto)
-    },
+    "target": "ESNext",
+    "module": "CommonJS",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "resolveJsonModule": true,
+    "baseUrl": "./",
+    "moduleResolution": "Node",
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "paths": {
+      "#src/*": ["src/*"]
+    }
   },
-  "include": ["./**/*.ts"], // Patrón de inclusión de archivos TypeScript
-  "exclude": ["node_modules", "dist"],
-  "extensions": [".ts"],
-  "files": ["./src/types.d.ts"],
-  "ts-node": { "esm": true }
+  "include": ["./**/*.ts"],
+  "files": ["src/types/types.d.ts"],
+  "exclude": ["node_modules", "dist"]
 }
