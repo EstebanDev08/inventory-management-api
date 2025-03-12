@@ -2,8 +2,8 @@ import { UUID } from 'crypto';
 
 export class SellerProfile {
   constructor(
-    public userId: UUID,
-    public storeName: string,
-    public storeDescription: string,
+    public user_id: UUID,
+    public store_name: string,
+    public store_description: string,
   ) {}
 }

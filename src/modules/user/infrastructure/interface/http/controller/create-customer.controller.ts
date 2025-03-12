@@ -4,7 +4,7 @@ import { CreateCustomerCommand } from '#src/modules/user/app/usecases/create-cus
 import { CreateCustomerUseCase } from '#src/modules/user/app/usecases/create-customer/create-customer.usecase';
 import { CreateCustomerDTO } from '#src/modules/user/app/usecases/create-customer/out-create-customer.dto';
 
-import { HttpCreateCustomerDTO } from '../../schemas/create-customer.schema';
+import { HttpCreateCustomerDTO } from '../../../schemas/create-customer.schema';
 
 @Controller('user')
 export class CreateCustomerController {

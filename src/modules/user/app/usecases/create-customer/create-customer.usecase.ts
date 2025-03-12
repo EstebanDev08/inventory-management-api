@@ -31,7 +31,7 @@ export class CreateCustomerUseCase {
 
       const newProfile = new CustomerProfile(newUser.id, command.shipping_address);
 
-      await this.UserRepo.craateCustomerProfile(newProfile);
+      await this.UserRepo.createCustomerProfile(newProfile);
 
       return CreateCustomerDTO.fromEntity(newUser, newProfile);
     });
