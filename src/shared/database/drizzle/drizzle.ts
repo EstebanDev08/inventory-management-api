@@ -1,12 +1,12 @@
-import { ExtractTablesWithRelations } from 'drizzle-orm';
-import { MySqlTransaction } from 'drizzle-orm/mysql-core';
-import { drizzle, MySql2PreparedQueryHKT, MySql2QueryResultHKT } from 'drizzle-orm/mysql2';
+import { drizzle } from 'drizzle-orm/mysql2';
 import mysql, { Pool } from 'mysql2';
 
 import * as models from '#src/shared/database/drizzle/models/index';
 import { enviroment } from '#src/shared/enviroment';
 
-const connection: Pool = mysql.createPool(enviroment.DB.URL);
+const connection: Pool = mysql.createPool(
+  `mysql://${enviroment.DB.USER}:${enviroment.DB.PASSWORD}@${enviroment.DB.HOST}:${enviroment.DB.PORT}/${enviroment.DB.SCHEMA}`,
+);
 
 // Singleton function to ensure only one db instance is created
 function singleton<Value>(name: string, value: () => Value): Value {
@@ -29,10 +29,4 @@ function createDatabaseConnection() {
 
 export const drizzleOrm = singleton('db', createDatabaseConnection);
 
-export type DrizzleTransaction = MySqlTransaction<
-  MySql2QueryResultHKT,
-  MySql2PreparedQueryHKT,
-  typeof models,
-  ExtractTablesWithRelations<typeof models>
->;
 export default models;

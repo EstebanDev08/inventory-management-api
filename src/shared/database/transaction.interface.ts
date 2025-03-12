@@ -1,7 +1,7 @@
-export interface ITransaction {
-  rollback: () => void;
+export abstract class ITransaction {
+  abstract rollback: () => void;
 }
 
-export interface ITransactionManagerService {
-  startTransaction<T>(clb: (tx: ITransaction) => Promise<T>): Promise<T>;
+export abstract class ITransactionService {
+  abstract startTransaction<T>(clb: (tx: ITransaction) => Promise<T>): Promise<T>;
 }
