@@ -8,8 +8,8 @@ import { IEncryptor } from '../domain/encryptRepository';
 export class EncryptImpl implements IEncryptor {
   private readonly saltRounds = 10;
 
-  async encrypt(textPlain: string) {
-    return bcrypt.hash(textPlain, this.saltRounds);
+  async encrypt(textPlain: string, saltRounds?: number) {
+    return bcrypt.hash(textPlain, saltRounds ?? this.saltRounds);
   }
 
   async compare(textPlain: string, hashText: string) {
