@@ -27,7 +27,13 @@ export class CreateUserService {
 
     const hashedPassword = await this.encryptor.encrypt(data.password);
 
-    const user = new User(UuidHandler.newUuid(), data.name, data.email, hashedPassword, data.role);
+    const user = User.create({
+      email: data.email,
+      id: UuidHandler.newUuid(),
+      name: data.name,
+      password: hashedPassword,
+      role: data.role,
+    });
 
     await this.userRepo.create(user, tx);
     return user;

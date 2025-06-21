@@ -15,7 +15,7 @@ export class CreateCustomerController {
     const command = CreateCustomerCommand.create({
       email: createUserDto.email,
       name: createUserDto.name,
-      password: createUserDto.name,
+      password: createUserDto.password,
       shipping_address: createUserDto.shipping_address,
     });
 

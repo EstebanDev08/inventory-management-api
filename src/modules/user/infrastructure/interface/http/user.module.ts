@@ -26,5 +26,6 @@ import { CreateSellerController } from './controller/create-seller.controller';
     CreateSellerUseCase,
   ],
   controllers: [CreateCustomerController, CreateSellerController],
+  exports: [InMemoryRepository, EncryptImpl],
 })
 export class UserModule {}

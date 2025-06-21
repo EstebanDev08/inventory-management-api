@@ -13,7 +13,9 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "paths": {
-      "#src/*": ["src/*"]
+      "#src/*": ["src/*"],
+      "#user/*": ["src/modules/user/*"],
+      "#auth/*": ["src/modules/auth/*"]
     }
   },
   "include": ["./**/*.ts"],
