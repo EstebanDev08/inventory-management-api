@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { GetUserByEmailuseCase } from '#src/modules/user/app/usecases/get-by-email/get-by-email.usecase';
+import { ValidateUserPasswordUseCase } from '#src/modules/user/app/usecases/validate-password/validate-password.usecase';
 import { IUserRepository } from '#src/modules/user/domain/user.repository';
 import { injectable } from '#src/shared/decorator/injectable.decorator';
 import { UnautorizedError } from '#src/shared/errors/unauthorized.error';
-import { IEncryptor } from '#src/shared/utils/index';
 
 import { LoginDto } from '../../dto/login.dto';
 import { AuthService } from '../../services/auth.service';
@@ -10,33 +12,35 @@ import { LoginCommand } from './login.command';
 @injectable()
 export class LoginUseCase {
   constructor(
-    private readonly userRepository: IUserRepository,
-    private readonly encryptor: IEncryptor,
     private readonly authService: AuthService,
+    private readonly validateUserPasswordUseCase: ValidateUserPasswordUseCase,
+    private readonly getUserByEmailUseCase: GetUserByEmailuseCase,
   ) {}
 
   async run(command: LoginCommand): Promise<LoginDto> {
-    const user = await this.userRepository.findByEmail(command.email);
+    try {
+      const user = await this.getUserByEmailUseCase.run({ email: command.email });
 
-    if (!user) {
-      const maxWaitTime = 110;
-      const minWaitTime = 90;
-      const randomWaitTime = Math.floor(Math.random() * (maxWaitTime - minWaitTime) + minWaitTime);
-      await new Promise((resolve) => {
-        setTimeout(resolve, randomWaitTime);
+      const { isMatching } = await this.validateUserPasswordUseCase.run({
+        password: command.password,
+        user_id: user.id,
       });
 
-      throw new UnautorizedError('Incorrect email or password provided', {
-        email: command.email,
-      });
-    }
+      if (!isMatching) {
+        //Todo: Implementar un mecanismo de bloqueo de cuenta por intentos fallidos
+        throw new UnautorizedError('Incorrect email or password provided');
+      }
 
-    const isMatching = await this.encryptor.compare(command.password, user.password);
-    if (!isMatching) {
-      //Todo: Implementar un mecanismo de bloqueo de cuenta por intentos fallidos
+      return new LoginDto(this.authService.generateUserToken(user));
+    } catch (error) {
+      await this.applyRandomDelay();
+
       throw new UnautorizedError('Incorrect email or password provided');
     }
+  }
 
-    return new LoginDto(this.authService.generateUserToken(user));
+  private async applyRandomDelay(): Promise<void> {
+    const delayMs = Math.floor(Math.random() * 20) + 90; // 90-110ms
+    return new Promise((resolve) => setTimeout(resolve, delayMs));
   }
 }
