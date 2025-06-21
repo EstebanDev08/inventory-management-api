@@ -57,13 +57,13 @@ describe('CreateUserService', () => {
 
   it('should throw ResourceAlreadyExistsError if user already exists', async () => {
     userRepo.findByEmail.mockResolvedValue(
-      new User(
-        '00000000-0000-0000-0000-000000000000',
-        'John Doe',
-        'john@example.com',
-        'password',
-        UserRole.SELLER,
-      ),
+      User.create({
+        id: '00000000-0000-0000-0000-000000000000',
+        name: 'John Doe',
+        email: 'john@example.com',
+        password: 'password',
+        role: UserRole.SELLER,
+      }),
     );
 
     const userData = {

@@ -3,20 +3,19 @@ import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 import { BaseCommand } from '#src/shared/commands/baseCommand.command';
 
 export class CreateCustomerCommand extends BaseCommand {
-  @IsString()
-  @IsEmail()
   @IsNotEmpty()
+  @IsEmail()
   readonly email!: string;
 
-  @IsString()
   @IsNotEmpty()
+  @IsString()
   readonly password!: string;
 
-  @IsString()
   @IsNotEmpty()
+  @IsString()
   readonly name!: string;
 
-  @IsString()
   @IsNotEmpty()
+  @IsString()
   readonly shipping_address!: string;
 }

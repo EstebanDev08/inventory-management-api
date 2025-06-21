@@ -23,7 +23,7 @@ export class CreateCustomerUseCase {
         {
           email: command.email,
           name: command.name,
-          password: command.email,
+          password: command.password,
           role: UserRole.CUSTOMER,
         },
         tx,

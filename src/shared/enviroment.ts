@@ -30,6 +30,11 @@ const configSchema = z.object({
     PORT: z.number().positive(),
     URL: z.string().nonempty(),
   }),
+  APP: z.object({
+    PORT: z.number().positive().optional(),
+    JWT_PRIVATE_KEY: z.string().nonempty(),
+    JWT_PUBLIC_KEY: z.string().nonempty(),
+  }),
 });
 
 // Definir una función auxiliar para hacer que los objetos sean de solo lectura en profundidad
@@ -56,6 +61,11 @@ const environmentData = {
     HOST: envToString(process.env.DB_HOST),
     PORT: envToNumber(process.env.DB_PORT),
     SCHEMA: envToString(process.env.DB_SCHEMA),
+  },
+  APP: {
+    PORT: envToNumber(process.env.APP_PORT, 3000),
+    JWT_PRIVATE_KEY: envToString(process.env.JWT_PRIVATE_KEY),
+    JWT_PUBLIC_KEY: envToString(process.env.JWT_PUBLIC_KEY),
   },
 };
 
