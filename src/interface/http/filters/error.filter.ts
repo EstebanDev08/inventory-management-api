@@ -1,8 +1,12 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus } from '@nestjs/common';
 
-import { BaseError } from '#src/shared/errors/base.error';
-import { ConflictError } from '#src/shared/errors/conflict.error';
-import { ValidationError } from '#src/shared/errors/validationError';
+import {
+  BaseError,
+  ConflictError,
+  NotFoundError,
+  UnautorizedError,
+  ValidationError,
+} from '#src/shared/errors';
 
 @Catch(BaseError)
 export class AppErrorFilter implements ExceptionFilter {
@@ -19,12 +23,14 @@ export class AppErrorFilter implements ExceptionFilter {
     if (exception instanceof ConflictError) {
       statusCode = HttpStatus.CONFLICT; // 409
     }
-    /*  if (exception instanceof UnauthorizedError) {
+    if (exception instanceof UnautorizedError) {
       statusCode = HttpStatus.UNAUTHORIZED; // 401
     }
-    if (exception instanceof EntityNotFoundError) {
+    if (exception instanceof NotFoundError) {
       statusCode = HttpStatus.NOT_FOUND; // 404
     }
+
+    /* 
     if (exception instanceof ForbiddenError) {
       statusCode = HttpStatus.FORBIDDEN; // 403
     }
