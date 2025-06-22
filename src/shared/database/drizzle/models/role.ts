@@ -1,11 +1,17 @@
 import { relations, sql } from 'drizzle-orm';
-import { datetime, mysqlTable, varchar } from 'drizzle-orm/mysql-core';
+import { datetime, mysqlEnum, mysqlTable, varchar } from 'drizzle-orm/mysql-core';
+
+import { UserRole } from '#src/modules/user/domain/entities/user.entity';
+
+import { customDrizzleUuid } from '../custom/uuid.field';
 
 import { userRole } from './user_role';
 
 export const role = mysqlTable('role', {
-  id: varchar({ length: 36 }).notNull().primaryKey(),
-  name: varchar({ length: 255 }).notNull(),
+  id: customDrizzleUuid('id').notNull().primaryKey(),
+  name: mysqlEnum(Object.values(UserRole) as [string, ...string[]])
+    .notNull()
+    .$type<UserRole>(),
   description: varchar({ length: 255 }).notNull(),
   created_at: datetime('created_at', { mode: 'date', fsp: 6 })
     .notNull()

@@ -1,12 +1,7 @@
 import { relations, sql } from 'drizzle-orm';
-import {
-  datetime,
-  index,
-  mysqlTable,
-  primaryKey,
-  timestamp,
-  varchar,
-} from 'drizzle-orm/mysql-core';
+import { datetime, index, mysqlTable, primaryKey, timestamp } from 'drizzle-orm/mysql-core';
+
+import { customDrizzleUuid } from '../custom/uuid.field';
 
 import { role } from './role';
 import { user } from './user';
@@ -14,10 +9,10 @@ import { user } from './user';
 export const userRole = mysqlTable(
   'user_role',
   {
-    user_id: varchar('user_id', { length: 36 })
+    user_id: customDrizzleUuid('user_id')
       .notNull()
       .references(() => user.id),
-    role_id: varchar('role_id', { length: 36 })
+    role_id: customDrizzleUuid('role_id')
       .notNull()
       .references(() => role.id),
     assigned_at: timestamp('assigned_at').defaultNow().notNull(),

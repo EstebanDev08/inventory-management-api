@@ -1,10 +1,12 @@
 import { relations, sql } from 'drizzle-orm';
-import { datetime, mysqlTable, text, varchar } from 'drizzle-orm/mysql-core';
+import { datetime, mysqlTable, text } from 'drizzle-orm/mysql-core';
+
+import { customDrizzleUuid } from '../custom/uuid.field';
 
 import { user } from './user';
 
 export const customer = mysqlTable('customer', {
-  user_id: varchar('user_id', { length: 36 })
+  user_id: customDrizzleUuid('user_id')
     .notNull()
     .references(() => user.id),
   shipping_address: text('shipping_address').notNull(),

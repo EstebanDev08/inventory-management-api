@@ -1,10 +1,12 @@
 import { relations, sql } from 'drizzle-orm';
 import { datetime, mysqlTable, varchar } from 'drizzle-orm/mysql-core';
 
+import { customDrizzleUuid } from '../custom/uuid.field';
+
 import { userRole } from './user_role';
 
 export const user = mysqlTable('user', {
-  id: varchar({ length: 36 }).notNull().primaryKey(),
+  id: customDrizzleUuid('id').notNull().primaryKey(),
   name: varchar({ length: 255 }).notNull(),
   email: varchar({ length: 255 }).notNull().unique(),
   password: varchar({ length: 255 }).notNull(),

@@ -3,7 +3,7 @@ import { injectable } from '#src/shared/decorator/injectable.decorator';
 import { ResourceAlreadyExistsError } from '#src/shared/errors/resourceAlreadyExists.error';
 import { IEncryptor, UuidHandler } from '#src/shared/utils/index';
 
-import { User } from '../../domain/entities/user.entity';
+import { User, UserRole } from '../../domain/entities/user.entity';
 import { IUserRepository } from '../../domain/user.repository';
 
 @injectable()
@@ -14,7 +14,7 @@ export class CreateUserService {
   ) {}
 
   async run(
-    data: { name: string; email: string; password: string; role: string },
+    data: { name: string; email: string; password: string; role: UserRole },
     tx: ITransaction,
   ): Promise<User> {
     const foundUser = await this.userRepo.findByEmail(data.email);
@@ -32,7 +32,7 @@ export class CreateUserService {
       id: UuidHandler.newUuid(),
       name: data.name,
       password: hashedPassword,
-      role: data.role,
+      roles: [data.role],
     });
 
     await this.userRepo.create(user, tx);

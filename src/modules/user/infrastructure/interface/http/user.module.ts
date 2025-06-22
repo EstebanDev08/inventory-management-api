@@ -10,7 +10,7 @@ import { DrizzleTransactionService } from '#src/shared/database/drizzle/service/
 import { ITransactionService } from '#src/shared/database/transaction.interface';
 import { EncryptImpl, IEncryptor } from '#src/shared/utils/index';
 
-import { InMemoryRepository } from '../../repositories/in-memory-user.respository';
+import { DrizzleUserRepository } from '../../repositories/drizzle-user.repository';
 
 import { CreateCustomerController } from './controller/create-customer.controller';
 import { CreateSellerController } from './controller/create-seller.controller';
@@ -18,10 +18,10 @@ import { CreateSellerController } from './controller/create-seller.controller';
 @Module({
   providers: [
     DrizzleTransactionService,
-    InMemoryRepository,
+    DrizzleUserRepository,
     EncryptImpl,
     { provide: ITransactionService, useClass: DrizzleTransactionService },
-    { provide: IUserRepository, useExisting: InMemoryRepository },
+    { provide: IUserRepository, useExisting: DrizzleUserRepository },
     { provide: IEncryptor, useExisting: EncryptImpl },
     CreateUserService,
     CreateCustomerUseCase,
@@ -30,6 +30,6 @@ import { CreateSellerController } from './controller/create-seller.controller';
     ValidateUserPasswordUseCase,
   ],
   controllers: [CreateCustomerController, CreateSellerController],
-  exports: [InMemoryRepository, GetUserByEmailuseCase, ValidateUserPasswordUseCase],
+  exports: [GetUserByEmailuseCase, ValidateUserPasswordUseCase],
 })
 export class UserModule {}
