@@ -2,7 +2,7 @@ import { UUID } from 'crypto';
 
 export class CustomerProfile {
   constructor(
-    public userId: UUID,
+    public user_id: UUID,
     public shipping_address: string,
   ) {}
 }
