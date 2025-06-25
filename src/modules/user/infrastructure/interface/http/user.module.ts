@@ -1,5 +1,6 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 
+import { AuthModule } from '#src/modules/auth/infrastructure/interface/http/auth.module';
 import { CreateUserService } from '#src/modules/user/app/service/create-user.service';
 import { CreateCustomerUseCase } from '#src/modules/user/app/usecases/create-customer/create-customer.usecase';
 import { CreateSellerUseCase } from '#src/modules/user/app/usecases/create-seller/create-seller.usecase';
@@ -16,6 +17,7 @@ import { CreateCustomerController } from './controller/create-customer.controlle
 import { CreateSellerController } from './controller/create-seller.controller';
 
 @Module({
+  imports: [forwardRef(() => AuthModule)],
   providers: [
     DrizzleTransactionService,
     DrizzleUserRepository,

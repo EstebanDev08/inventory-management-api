@@ -7,6 +7,7 @@ import {
   UnautorizedError,
   ValidationError,
 } from '#src/shared/errors';
+import { ForbiddenError } from '#src/shared/errors/forbidden.error';
 
 @Catch(BaseError)
 export class AppErrorFilter implements ExceptionFilter {
@@ -30,10 +31,11 @@ export class AppErrorFilter implements ExceptionFilter {
       statusCode = HttpStatus.NOT_FOUND; // 404
     }
 
-    /* 
     if (exception instanceof ForbiddenError) {
       statusCode = HttpStatus.FORBIDDEN; // 403
     }
+
+    /*  
     if (exception instanceof BusinessLogicError) {
       statusCode = HttpStatus.BAD_REQUEST; // 400
     }*/
