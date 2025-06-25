@@ -2,7 +2,7 @@
 
 import { CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
 
-import { IJwtRepository } from '#src/modules/auth/domain/jwt.repository';
+import { AuthenticatedUser, IJwtRepository } from '#src/modules/auth/domain/jwt.repository';
 import { injectable } from '#src/shared/decorator/injectable.decorator';
 import { UnautorizedError } from '#src/shared/errors/unauthorized.error';
 
@@ -19,11 +19,7 @@ export class JwtGuard implements CanActivate {
     }
 
     try {
-      const payload = this.jwtRepository.verify<{
-        sub: string;
-        email: string;
-        roles: string[];
-      }>(token);
+      const payload = this.jwtRepository.verify<AuthenticatedUser>(token);
 
       request.user = payload;
       return true;
