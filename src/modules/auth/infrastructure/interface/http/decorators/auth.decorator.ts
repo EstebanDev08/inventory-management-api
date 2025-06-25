@@ -10,9 +10,16 @@ export function Auth(...roles: UserRole[]) {
 // Decorador para obtener el usuario actual
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
+import { AuthenticatedUser } from '#src/modules/auth/domain/jwt.repository';
 import { UserRole } from '#src/modules/user/domain/entities/user.entity';
 
-export const CurrentUser = createParamDecorator((data: unknown, ctx: ExecutionContext) => {
-  const request = ctx.switchToHttp().getRequest();
-  return request.user;
-});
+export const CurrentUser = createParamDecorator(
+  (data: unknown, ctx: ExecutionContext): AuthenticatedUser => {
+    const request = ctx.switchToHttp().getRequest();
+    return {
+      sub: request.user.sub,
+      email: request.user.email,
+      roles: request.user.roles,
+    };
+  },
+);

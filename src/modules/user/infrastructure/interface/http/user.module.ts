@@ -5,6 +5,8 @@ import { CreateUserService } from '#src/modules/user/app/service/create-user.ser
 import { CreateCustomerUseCase } from '#src/modules/user/app/usecases/create-customer/create-customer.usecase';
 import { CreateSellerUseCase } from '#src/modules/user/app/usecases/create-seller/create-seller.usecase';
 import { GetUserByEmailuseCase } from '#src/modules/user/app/usecases/get-by-email/get-by-email.usecase';
+import { GetUserByIduseCase } from '#src/modules/user/app/usecases/get-by-id/get-by-id.usecase';
+import { UpdateUserUseCase } from '#src/modules/user/app/usecases/update/update.usecase';
 import { ValidateUserPasswordUseCase } from '#src/modules/user/app/usecases/validate-password/validate-password.usecase';
 import { IUserRepository } from '#src/modules/user/domain/user.repository';
 import { DrizzleTransactionService } from '#src/shared/database/drizzle/service/drizzleTransaction.service';
@@ -30,8 +32,15 @@ import { CreateSellerController } from './controller/create-seller.controller';
     CreateSellerUseCase,
     GetUserByEmailuseCase,
     ValidateUserPasswordUseCase,
+    GetUserByIduseCase,
+    UpdateUserUseCase,
   ],
   controllers: [CreateCustomerController, CreateSellerController],
-  exports: [GetUserByEmailuseCase, ValidateUserPasswordUseCase],
+  exports: [
+    GetUserByEmailuseCase,
+    ValidateUserPasswordUseCase,
+    GetUserByIduseCase,
+    UpdateUserUseCase,
+  ],
 })
 export class UserModule {}

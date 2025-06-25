@@ -3,7 +3,6 @@ import { UUID } from 'crypto';
 import { eq } from 'drizzle-orm';
 
 import { drizzleOrm, models } from '#src/shared/database/drizzle/drizzle';
-import { user } from '#src/shared/database/drizzle/models/user';
 import { userRole } from '#src/shared/database/drizzle/models/user_role';
 import { DrizzleTransaction } from '#src/shared/database/drizzle/service/drizzleTransaction.service';
 import { injectable } from '#src/shared/decorator/injectable.decorator';
@@ -16,13 +15,25 @@ import { IUserRepository } from '../../domain/user.repository';
 
 @injectable()
 export class DrizzleUserRepository implements IUserRepository {
+  async update(data: User, tx?: DrizzleTransaction): Promise<void> {
+    const invoker = tx ?? drizzleOrm();
+    await invoker
+      .update(models.user)
+      .set({
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      })
+      .where(eq(models.user.id, data.id));
+  }
   async create(data: User, tx?: DrizzleTransaction): Promise<void> {
     const invoker = tx ?? drizzleOrm();
 
-    await invoker.insert(user).values(data);
+    await invoker.insert(models.user).values(data);
   }
+
   async findById(id: UUID): Promise<User | null> {
-    const foundUser = await drizzleOrm().query.user.findFirst({ where: eq(user.id, id) });
+    const foundUser = await drizzleOrm().query.user.findFirst({ where: eq(models.user.id, id) });
 
     if (!foundUser) {
       return null;
@@ -36,7 +47,9 @@ export class DrizzleUserRepository implements IUserRepository {
     });
   }
   async findByEmail(email: string): Promise<User | null> {
-    const foundUser = await drizzleOrm().query.user.findFirst({ where: eq(user.email, email) });
+    const foundUser = await drizzleOrm().query.user.findFirst({
+      where: eq(models.user.email, email),
+    });
 
     if (!foundUser) {
       return null;

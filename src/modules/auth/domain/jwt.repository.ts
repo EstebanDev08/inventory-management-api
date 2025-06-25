@@ -1,3 +1,13 @@
+import { UUID } from 'crypto';
+
+import { UserRole } from '#src/modules/user/domain/entities/user.entity';
+
+export type AuthenticatedUser = {
+  sub: UUID;
+  email: string;
+  roles: UserRole[];
+};
+
 export abstract class IJwtRepository {
   /**
    * Genera un JWT con los claims indicados.

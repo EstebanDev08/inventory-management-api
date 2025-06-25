@@ -10,6 +10,11 @@ import { IUserRepository } from '../../domain/user.repository';
 
 @injectable()
 export class InMemoryRepository implements IUserRepository {
+  async update(user: User): Promise<void> {
+    console.log(user);
+    throw new Error('Method not implemented.');
+  }
+
   private readonly users: User[] = [];
   private readonly customerProfiles: CustomerProfile[] = [];
   private readonly sellerProfiles: SellerProfile[] = [];
