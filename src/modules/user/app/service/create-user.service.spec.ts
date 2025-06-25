@@ -37,7 +37,7 @@ describe('CreateUserService', () => {
       name: 'John Doe',
       email: 'john@example.com',
       password: 'password',
-      role: 'user',
+      role: UserRole.CUSTOMER,
     };
 
     const user = await createUserService.run(userData, tx);
@@ -50,7 +50,7 @@ describe('CreateUserService', () => {
         name: 'John Doe',
         email: 'john@example.com',
         password: 'hashedPassword',
-        role: 'user',
+        roles: [UserRole.CUSTOMER],
       }),
     );
   });
@@ -62,7 +62,7 @@ describe('CreateUserService', () => {
         name: 'John Doe',
         email: 'john@example.com',
         password: 'password',
-        role: UserRole.SELLER,
+        roles: [UserRole.SELLER],
       }),
     );
 
@@ -86,7 +86,7 @@ describe('CreateUserService', () => {
       name: 'John Doe',
       email: 'john@example.com',
       password: 'password',
-      role: 'user',
+      role: UserRole.CUSTOMER,
     };
 
     await createUserService.run(userData, tx);

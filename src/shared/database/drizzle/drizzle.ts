@@ -1,32 +1,32 @@
-import { drizzle } from 'drizzle-orm/mysql2';
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { drizzle, MySql2Database } from 'drizzle-orm/mysql2';
 import mysql, { Pool } from 'mysql2';
 
 import * as models from '#src/shared/database/drizzle/models/index';
 import { enviroment } from '#src/shared/enviroment';
 
-const connection: Pool = mysql.createPool(
-  `mysql://${enviroment.DB.USER}:${enviroment.DB.PASSWORD}@${enviroment.DB.HOST}:${enviroment.DB.PORT}/${enviroment.DB.SCHEMA}`,
-);
+const globalAny: any = global;
+globalAny.__dbPool = null;
+globalAny.__dbConnection = null;
 
-// Singleton function to ensure only one db instance is created
-function singleton<Value>(name: string, value: () => Value): Value {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const globalAny: any = global;
-  globalAny.__singletons = globalAny.__singletons || {};
-
-  if (!globalAny.__singletons[name]) {
-    globalAny.__singletons[name] = value();
-  }
-
-  return globalAny.__singletons[name];
-}
-
-// Function to create the database connection and apply migrations if needed
 function createDatabaseConnection() {
-  const poolConnection = connection;
-  return drizzle(poolConnection, { schema: models, mode: 'default' });
+  const poolConnection: Pool = mysql.createPool(enviroment.DB.URL);
+  console.log('🔌 Nueva conexión creada');
+  globalAny.__dbPool = poolConnection;
+  globalAny.__dbConnection = drizzle(poolConnection, { schema: models, mode: 'default' });
 }
 
-export const drizzleOrm = singleton('db', createDatabaseConnection);
+function getDatabase() {
+  if (!globalAny.__dbPool) {
+    createDatabaseConnection();
+  }
+  return globalAny.__dbConnection;
+}
 
-export default models;
+export function getDrizzleOrm() {
+  return getDatabase() as MySql2Database<typeof models>;
+}
+const drizzleOrm = getDrizzleOrm;
+
+export { drizzleOrm, models };

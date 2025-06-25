@@ -7,7 +7,7 @@ export class CreateSellerDTO {
     public id: string,
     public name: string,
     public email: string,
-    public role: string,
+    public roles: string[],
     public profile: {
       store_name: string;
       store_description: string;
@@ -15,7 +15,7 @@ export class CreateSellerDTO {
   ) {}
 
   static fromEntity(user: User, profile: SellerProfile): CreateSellerDTO {
-    return new CreateSellerDTO(user.id, user.name, user.email, user.role, {
+    return new CreateSellerDTO(user.id, user.name, user.email, user.roles, {
       store_description: profile.store_description,
       store_name: profile.store_name,
     });

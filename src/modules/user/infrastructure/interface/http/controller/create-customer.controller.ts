@@ -1,10 +1,11 @@
 import { Body, Controller, Post } from '@nestjs/common';
 
 import { CreateCustomerCommand } from '#src/modules/user/app/usecases/create-customer/create-customer.command';
-import { CreateCustomerUseCase } from '#src/modules/user/app/usecases/create-customer/create-customer.usecase';
-import { CreateCustomerDTO } from '#src/modules/user/app/usecases/create-customer/out-create-customer.dto';
 
 import { HttpCreateCustomerDTO } from '../../../schemas/create-customer.schema';
+
+import { CreateCustomerUseCase } from '#user/app/usecases/create-customer/create-customer.usecase';
+import { CreateCustomerDTO } from '#user/app/usecases/create-customer/out-create-customer.dto';
 
 @Controller('user')
 export class CreateCustomerController {
