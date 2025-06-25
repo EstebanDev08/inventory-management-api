@@ -11,6 +11,7 @@ export abstract class IUserRepository {
   abstract findById(id: UUID): Promise<User | null>;
   abstract findByEmail(email: string): Promise<User | null>;
   abstract findMany(): Promise<User[]>;
+  abstract update(user: User, tx?: ITransaction): Promise<void>;
 
   abstract createCustomerProfile(profile: CustomerProfile, tx: ITransaction): Promise<void>;
   abstract createSellerProfile(profile: SellerProfile, tx: ITransaction): Promise<void>;

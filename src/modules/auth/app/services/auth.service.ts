@@ -16,4 +16,12 @@ export class AuthService {
       roles: user.roles,
     }).token;
   }
+
+  generatePasswordResetToken(id: string): string {
+    return this.jwtRepository.sign({ id, type: 'password-reset' }, 600).token;
+  }
+
+  verifyPasswordResetToken(token: string): { id: UUID; type: string } {
+    return this.jwtRepository.verify<{ id: UUID; type: string }>(token);
+  }
 }

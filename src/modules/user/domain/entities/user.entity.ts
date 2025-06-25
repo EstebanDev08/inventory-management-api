@@ -24,6 +24,16 @@ export class User {
     readonly roles: UserRole[],
   ) {}
 
+  public update(props: UpdateEntity<UserProps>): User {
+    return User.create({
+      id: this.id,
+      name: props.name ?? this.name,
+      email: props.email ?? this.email,
+      password: props.password ?? this.password,
+      roles: props.roles ?? this.roles,
+    });
+  }
+
   public static create(props: UserProps): User {
     return new User(props.id, props.name, props.email, props.password, props.roles);
   }
