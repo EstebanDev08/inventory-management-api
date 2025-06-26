@@ -9,12 +9,12 @@ import { IJwtRepository } from '../../domain/jwt.repository';
 export class AuthService {
   constructor(private readonly jwtRepository: IJwtRepository) {}
 
-  generateUserToken(user: { id: UUID; email: string; roles: UserRole[] }): string {
+  generateUserToken(user: { id: UUID; email: string; roles: UserRole[] }) {
     return this.jwtRepository.sign({
       sub: user.id,
       email: user.email,
       roles: user.roles,
-    }).token;
+    });
   }
 
   generatePasswordResetToken(id: string): string {
@@ -23,5 +23,15 @@ export class AuthService {
 
   verifyPasswordResetToken(token: string): { id: UUID; type: string } {
     return this.jwtRepository.verify<{ id: UUID; type: string }>(token);
+  }
+
+  generateRefreshToken(user: { id: UUID }): string {
+    return this.jwtRepository.generateRefreshToken({
+      sub: user.id,
+    });
+  }
+
+  verifyRefreshToken(token: string): { sub: UUID } {
+    return this.jwtRepository.verifyRefreshToken<{ sub: UUID }>(token);
   }
 }

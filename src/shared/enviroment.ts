@@ -34,6 +34,7 @@ const configSchema = z.object({
     PORT: z.number().positive().optional(),
     JWT_PRIVATE_KEY: z.string().nonempty(),
     JWT_PUBLIC_KEY: z.string().nonempty(),
+    JWT_REFRESH_SECRET: z.string().nonempty(),
   }),
 });
 
@@ -66,6 +67,7 @@ const environmentData = {
     PORT: envToNumber(process.env.APP_PORT, 3000),
     JWT_PRIVATE_KEY: envToString(process.env.JWT_PRIVATE_KEY),
     JWT_PUBLIC_KEY: envToString(process.env.JWT_PUBLIC_KEY),
+    JWT_REFRESH_SECRET: envToString(process.env.JWT_REFRESH_SECRET),
   },
 };
 

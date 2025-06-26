@@ -31,7 +31,10 @@ export class LoginUseCase {
         throw new UnautorizedError('Incorrect email or password provided');
       }
 
-      return new LoginDto(this.authService.generateUserToken(user));
+      const { token, expiresIn } = this.authService.generateUserToken(user);
+      const refreshToken = this.authService.generateRefreshToken({ id: user.id });
+
+      return new LoginDto(token, refreshToken, expiresIn);
     } catch (error) {
       await this.applyRandomDelay();
 

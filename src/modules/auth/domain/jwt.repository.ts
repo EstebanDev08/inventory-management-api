@@ -25,4 +25,18 @@ export abstract class IJwtRepository {
    * @throws Error si no es válido o expiró
    */
   abstract verify<T = unknown>(token: string): T;
+
+  /**
+   * Genera un refresh token con mayor duración.
+   * @param payload Datos del usuario
+   * @returns refresh token
+   */
+  abstract generateRefreshToken(payload: Record<string, unknown>): string;
+
+  /**
+   * Verifica un refresh token.
+   * @param token Refresh token a verificar
+   * @throws Error si no es válido o expiró
+   */
+  abstract verifyRefreshToken<T>(token: string): T;
 }

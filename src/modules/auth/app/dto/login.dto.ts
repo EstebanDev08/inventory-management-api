@@ -1,3 +1,7 @@
 export class LoginDto {
-  constructor(readonly token: string) {}
+  constructor(
+    public readonly token: string,
+    public readonly refreshToken: string,
+    public readonly expiresIn: number,
+  ) {}
 }

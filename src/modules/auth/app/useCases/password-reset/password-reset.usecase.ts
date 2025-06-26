@@ -27,13 +27,15 @@ export class PasswordResetUseCase {
         id: payload.id,
       });
 
-      const token = this.authService.generateUserToken({
+      const { expiresIn, token } = this.authService.generateUserToken({
         id: updatedUser.id,
         email: updatedUser.email,
         roles: updatedUser.roles,
       });
 
-      return new LoginDto(token);
+      const refreshToken = this.authService.generateRefreshToken({ id: updatedUser.id });
+
+      return new LoginDto(token, refreshToken, expiresIn);
     } catch {
       throw new BadRequestError('Bad token provided');
     }
