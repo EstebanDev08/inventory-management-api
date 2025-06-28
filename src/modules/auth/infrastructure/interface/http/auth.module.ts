@@ -1,6 +1,7 @@
 import { forwardRef, Module } from '@nestjs/common';
 
 import { AuthService } from '#src/modules/auth/app/services/auth.service';
+import { GetCurrentUserUseCase } from '#src/modules/auth/app/useCases/get-current-user/get-current-user.usecase';
 import { LoginUseCase } from '#src/modules/auth/app/useCases/login/login.usecase';
 import { PasswordResetUseCase } from '#src/modules/auth/app/useCases/password-reset/password-reset.usecase';
 import { PasswordResetRequestUseCase } from '#src/modules/auth/app/useCases/password-reset-request/password-reset-requet.usecase';
@@ -11,6 +12,7 @@ import { UserModule } from '#src/modules/user/infrastructure/interface/http/user
 
 import { JwtRepository } from '../../repositories/jwt.imp';
 
+import { GetCurrentUserController } from './controller/get-current-user.controller';
 import { LoginController } from './controller/login.controller';
 import { PasswordResetController } from './controller/password-reset.controller';
 import { PasswordResetRequestRequestController } from './controller/password-reset-request.controller';
@@ -24,6 +26,7 @@ import { RolesGuard } from './guards/roles.guard';
     { provide: IJwtRepository, useClass: JwtRepository },
     AuthService,
     LoginUseCase,
+    GetCurrentUserUseCase,
     RefreshTokenUseCase,
     RolesGuard,
     JwtGuard,
@@ -33,6 +36,7 @@ import { RolesGuard } from './guards/roles.guard';
   ],
   controllers: [
     LoginController,
+    GetCurrentUserController,
     RefreshTokenController,
     PasswordResetController,
     PasswordResetRequestRequestController,
